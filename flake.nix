@@ -26,7 +26,12 @@
             runtimeInputs = with pkgs; [neovim];
             text = ''
               export NVIM_APPNAME="nvim-new"
-              exec nvim "$@"
+              kitty @ set-spacing padding=0
+              cleanup() {
+                kitty @ set-spacing padding=8
+              }
+              trap cleanup EXIT
+              nvim "$@"
             '';
           })
         ];
