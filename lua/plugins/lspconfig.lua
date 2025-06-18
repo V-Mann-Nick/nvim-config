@@ -9,6 +9,8 @@ return {
         "saghen/blink.cmp",
 
         "nvim-telescope/telescope.nvim",
+
+        "aznhe21/actions-preview.nvim",
     },
     config = function()
         --  This function gets run when an LSP attaches to a particular buffer.
@@ -29,7 +31,7 @@ return {
 
                 -- Execute a code action, usually your cursor needs to be on top of an error
                 -- or a suggestion from your LSP for this to activate.
-                map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+                map("gra", require("actions-preview").code_actions, "[G]oto Code [A]ction", { "n", "x" })
 
                 -- Find references for the word under your cursor.
                 map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -160,6 +162,10 @@ return {
         vim.lsp.config("lua_ls", {
             cmd = { "lua-language-server" },
         })
-        vim.lsp.enable("lua_ls")
+
+        vim.lsp.enable({
+            "lua_ls",
+            "nil_ls",
+        })
     end,
 }

@@ -19,6 +19,7 @@ return {
             "vimdoc",
             "rust",
             "zig",
+            "sql",
         },
         -- Autoinstall languages that are not installed
         auto_install = true,
