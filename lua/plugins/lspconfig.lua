@@ -166,6 +166,10 @@ return {
         vim.lsp.enable({
             "lua_ls",
             "nil_ls",
+            "pyright",
+            "ruff",
+            "zls",
+            "jsonls",
         })
     end,
 }

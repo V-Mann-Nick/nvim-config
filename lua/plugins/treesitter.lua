@@ -20,6 +20,7 @@ return {
             "rust",
             "zig",
             "sql",
+            "python",
         },
         -- Autoinstall languages that are not installed
         auto_install = true,
