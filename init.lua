@@ -61,8 +61,6 @@ vim.o.confirm = true
 vim.opt.title = true
 vim.opt.titlestring = [[%f %h%m%r%w - %{v:progname}]]
 
-vim.o.winborder = "rounded"
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
