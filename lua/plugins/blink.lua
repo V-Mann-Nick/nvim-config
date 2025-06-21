@@ -2,12 +2,10 @@
 return {
     "saghen/blink.cmp",
     event = "VimEnter",
-    version = "1.*",
     dependencies = {
         -- Snippet Engine
         {
             "L3MON4D3/LuaSnip",
-            version = "2.*",
             build = (function()
                 -- Build Step is needed for regex support in snippets.
                 -- This step is not supported in many windows environments.
@@ -31,9 +29,36 @@ return {
             opts = {},
         },
         "folke/lazydev.nvim",
-        -- { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-        -- { "onsails/lspkind.nvim", enabled = vim.g.have_nerd_font },
         { "xzbdmw/colorful-menu.nvim", opts = {} },
+        "ssstba/ecolog.nvim",
+        "moyiz/blink-emoji.nvim",
+        {
+            "fang2hou/blink-copilot",
+            dependencies = {
+                {
+                    "github/copilot.vim",
+                    cmd = "Copilot",
+                    event = "BufWinEnter",
+                    init = function()
+                        vim.g.copilot_no_maps = true
+                    end,
+                    config = function()
+                        -- Block the normal Copilot suggestions
+                        local group = vim.api.nvim_create_augroup("github_copilot", { clear = true })
+                        vim.api.nvim_create_autocmd({ "FileType", "BufUnload" }, {
+                            group = group,
+                            callback = function(args)
+                                vim.fn["copilot#On" .. args.event]()
+                            end,
+                        })
+                        vim.fn["copilot#OnFileType"]()
+                    end,
+                },
+            },
+            opts = {
+                max_completions = 2,
+            },
+        },
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
@@ -43,7 +68,7 @@ return {
 
             ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
             ["<C-e>"] = { "hide" },
-            ["<C-y>"] = { "select_and_accept" },
+            ["<Enter>"] = { "select_and_accept", "fallback" },
 
             ["<Up>"] = { "select_prev", "fallback" },
             ["<Down>"] = { "select_next", "fallback" },
@@ -67,9 +92,7 @@ return {
         },
 
         completion = {
-            -- By default, you may press `<c-space>` to show the documentation.
-            -- Optionally, set `auto_show = true` to show the documentation after a delay.
-            documentation = { auto_show = false, auto_show_delay_ms = 500 },
+            documentation = { auto_show = true, auto_show_delay_ms = 500 },
             list = {
                 selection = {
                     preselect = false,
@@ -95,9 +118,28 @@ return {
         },
 
         sources = {
-            default = { "lsp", "path", "snippets", "lazydev" },
+            default = { "ecolog", "copilot", "lsp", "path", "snippets", "lazydev", "emoji" },
             providers = {
                 lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+                ecolog = { name = "ecolog", module = "ecolog.integrations.cmp.blink_cmp" },
+                emoji = {
+                    module = "blink-emoji",
+                    name = "Emoji",
+                    score_offset = 15, -- Tune by preference
+                    opts = {
+                        insert = true, -- Insert emoji (default) or complete its name
+                        ---@type string|table|fun():table
+                        trigger = function()
+                            return { ":" }
+                        end,
+                    },
+                },
+                copilot = {
+                    name = "copilot",
+                    module = "blink-copilot",
+                    score_offset = 100,
+                    async = true,
+                },
             },
         },
 
