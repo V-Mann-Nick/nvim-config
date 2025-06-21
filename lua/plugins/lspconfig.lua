@@ -62,6 +62,17 @@ return {
                 --  the definition of its *type*, not where it was *defined*.
                 map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
 
+                --- Opens the diagnostic dialog over a symbol
+                map("grl", vim.diagnostic.open_float, "[G]oto Diagnostics Dia[l]og")
+
+                map("]g", function()
+                    vim.diagnostic.jump({ count = 1, float = true })
+                end, "Next diagnostic")
+
+                map("[g", function()
+                    vim.diagnostic.jump({ count = -1, float = true })
+                end, "Next diagnostic")
+
                 -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
                 ---@param client vim.lsp.Client
                 ---@param method vim.lsp.protocol.Method
@@ -135,7 +146,7 @@ return {
         vim.diagnostic.config({
             severity_sort = true,
             float = { border = "rounded", source = "if_many" },
-            underline = { severity = vim.diagnostic.severity.ERROR },
+            underline = true,
             signs = vim.g.have_nerd_font and {
                 text = {
                     [vim.diagnostic.severity.ERROR] = "󰅚 ",
