@@ -17,6 +17,9 @@ return {
                                 enable = false,
                             },
                         },
+                        check = {
+                            workspace = false,
+                        },
                     },
                 },
             },
