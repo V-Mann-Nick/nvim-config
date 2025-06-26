@@ -178,6 +178,7 @@ return {
             "ruff",
             "zls",
             "jsonls",
+            "vtsls",
         })
     end,
 }
