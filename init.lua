@@ -95,6 +95,9 @@ vim.keymap.set("n", "<leader>w", ":close<Enter>", { silent = true, desc = "Close
 -- Search for the visual selection
 vim.keymap.set("v", "//", "y/<C-R>0<CR>", { noremap = true })
 
+-- Shortcut for search and replace
+vim.keymap.set("n", "<leader>S", ":%s//g<Left><Left>", { noremap = true })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
