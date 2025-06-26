@@ -1,6 +1,7 @@
 -- Autocompletion
 return {
     "saghen/blink.cmp",
+    version = "1.*",
     event = "VimEnter",
     dependencies = {
         -- Snippet Engine
@@ -92,7 +93,7 @@ return {
         },
 
         completion = {
-            documentation = { auto_show = true, auto_show_delay_ms = 500 },
+            documentation = { auto_show = true, auto_show_delay_ms = 0 },
             list = {
                 selection = {
                     preselect = false,
@@ -118,8 +119,11 @@ return {
         },
 
         sources = {
-            default = { "ecolog", "copilot", "lsp", "path", "snippets", "lazydev", "emoji" },
+            default = { "ecolog", "copilot", "lsp", "path", "lazydev", "emoji", "buffer" },
             providers = {
+                lsp = {
+                    async = true,
+                },
                 lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
                 ecolog = { name = "ecolog", module = "ecolog.integrations.cmp.blink_cmp" },
                 emoji = {
