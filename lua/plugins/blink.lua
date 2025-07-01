@@ -31,7 +31,6 @@ return {
         },
         "folke/lazydev.nvim",
         { "xzbdmw/colorful-menu.nvim", opts = {} },
-        "ssstba/ecolog.nvim",
         "moyiz/blink-emoji.nvim",
         {
             "fang2hou/blink-copilot",
@@ -119,13 +118,19 @@ return {
         },
 
         sources = {
-            default = { "ecolog", "copilot", "lsp", "path", "lazydev", "emoji", "buffer" },
+            default = {
+                "copilot",
+                "lsp",
+                "path",
+                "lazydev",
+                "emoji",
+                "buffer",
+            },
             providers = {
                 lsp = {
                     async = true,
                 },
                 lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
-                ecolog = { name = "ecolog", module = "ecolog.integrations.cmp.blink_cmp" },
                 emoji = {
                     module = "blink-emoji",
                     name = "Emoji",
