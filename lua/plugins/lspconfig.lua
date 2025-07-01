@@ -2,9 +2,6 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        -- Allows extra capabilities provided by blink.cmp
-        "saghen/blink.cmp",
-
         "nvim-telescope/telescope.nvim",
 
         "aznhe21/actions-preview.nvim",
