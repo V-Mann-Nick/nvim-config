@@ -52,6 +52,21 @@ return {
                             end,
                         })
                         vim.fn["copilot#OnFileType"]()
+
+                        vim.cmd([[let g:copilot_enabled = v:false]])
+                        vim.keymap.set("n", "<leader>tc", function()
+                            vim.cmd([[
+                                    if exists("g:copilot_enabled") && g:copilot_enabled
+                                        let g:copilot_enabled = v:false
+                                        Copilot disable
+                                        echo "Copilot disabled"
+                                    else
+                                        let g:copilot_enabled = v:true
+                                        Copilot enable
+                                        echo "Copilot enabled"
+                                    endif
+                                ]])
+                        end, { desc = "[T]oggle [C]opilot" })
                     end,
                 },
             },
