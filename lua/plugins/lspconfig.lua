@@ -168,14 +168,22 @@ return {
             cmd = { "lua-language-server" },
         })
 
-        vim.lsp.enable({
+        local lsps = {
             "lua_ls",
             "nil_ls",
             "pyright",
             "ruff",
             "zls",
             "jsonls",
-            "vtsls",
-        })
+            "terraformls",
+        }
+
+        if os.getenv("ENABLE_DENO_LSP") then
+            table.insert(lsps, "denols")
+        else
+            table.insert(lsps, "vtsls")
+        end
+
+        vim.lsp.enable(lsps)
     end,
 }
