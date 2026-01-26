@@ -168,6 +168,13 @@ return {
             cmd = { "lua-language-server" },
         })
 
+        vim.lsp.config("vtsls", {
+            settings = {
+                -- ["typescript.tsserver.log"] = "verbose",
+                ["typescript.tsserver.maxTsServerMemory"] = 8192,
+            },
+        })
+
         local lsps = {
             "lua_ls",
             "nil_ls",
@@ -181,7 +188,7 @@ return {
         if os.getenv("ENABLE_DENO_LSP") then
             table.insert(lsps, "denols")
         else
-            table.insert(lsps, "vtsls")
+            table.insert(lsps, "tsgo")
         end
 
         vim.lsp.enable(lsps)
