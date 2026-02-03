@@ -183,6 +183,7 @@ return {
             "zls",
             "jsonls",
             "terraformls",
+            "tinymist",
         }
 
         if os.getenv("ENABLE_DENO_LSP") then
