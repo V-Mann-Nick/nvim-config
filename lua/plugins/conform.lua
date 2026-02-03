@@ -41,6 +41,7 @@ return {
             typescriptreact = { "prettierd", "prettier", stop_after_first = true },
             javascriptreact = { "prettierd", "prettier", stop_after_first = true },
             rust = { "rustfmt" },
+            typst = { "typstyle" },
         },
     },
 }
