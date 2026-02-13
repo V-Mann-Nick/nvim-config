@@ -189,7 +189,7 @@ return {
         if os.getenv("ENABLE_DENO_LSP") then
             table.insert(lsps, "denols")
         else
-            table.insert(lsps, "tsgo")
+            table.insert(lsps, "vtsls")
         end
 
         vim.lsp.enable(lsps)
