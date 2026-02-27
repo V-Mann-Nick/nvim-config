@@ -55,7 +55,29 @@ return {
                 find_files = {
                     hidden = true,
                     -- no_ignore = true,
-                    find_command = { "rg", "--files", "-g", "!.git", "--color", "never" },
+                    find_command = function()
+                        local ignore_file = vim.fn.getcwd() .. "/.telescope-ignore"
+                        local args = { "rg", "--files", "-g", "!.git", "--color", "never" }
+
+                        if vim.fn.filereadable(ignore_file) == 1 then
+                            table.insert(args, "--ignore-file")
+                            table.insert(args, ignore_file)
+                        end
+
+                        return args
+                    end,
+                },
+                live_grep = {
+                    additional_args = function()
+                        local ignore_file = vim.fn.getcwd() .. "/.telescope-ignore"
+                        local additional_args = {}
+
+                        if vim.fn.filereadable(ignore_file) == 1 then
+                            additional_args = { "--ignore-file", ignore_file }
+                        end
+
+                        return additional_args
+                    end,
                 },
                 buffers = {
                     mappings = {
@@ -63,6 +85,9 @@ return {
                             D = actions.delete_buffer + actions.move_selection_next,
                         },
                     },
+                    initial_mode = "normal",
+                    sort_mru = true,
+                    ignore_current_buffer = true,
                 },
             },
         })
@@ -77,28 +102,11 @@ return {
         vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
         vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
         vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-        vim.keymap.set("n", "<leader>sg", function()
-            local ignore_file = vim.fn.getcwd() .. "/.telescope-ignore"
-            local additional_args = {}
-
-            if vim.fn.filereadable(ignore_file) == 1 then
-                additional_args = { "--ignore-file", ignore_file }
-            end
-
-            builtin.live_grep({
-                additional_args = additional_args
-            })
-        end, { desc = "[S]earch by [G]rep" })
+        vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
         vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
         vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
         vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set("n", "<leader><leader>", function()
-            builtin.buffers({
-                initial_mode = "normal",
-                sort_mru = true,
-                ignore_current_buffer = true,
-            })
-        end, { desc = "[ ] Find existing buffers" })
+        vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
         -- Slightly advanced example of overriding default behavior and theme
         vim.keymap.set("n", "<leader>/", function()
