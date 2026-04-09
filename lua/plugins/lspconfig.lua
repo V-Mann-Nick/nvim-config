@@ -170,8 +170,12 @@ return {
 
         vim.lsp.config("vtsls", {
             settings = {
-                -- ["typescript.tsserver.log"] = "verbose",
-                ["typescript.tsserver.maxTsServerMemory"] = 8192,
+                typescript = {
+                    tsserver = {
+                        -- log = "verbose",
+                        maxTsServerMemory = 8192,
+                    },
+                },
             },
         })
 
